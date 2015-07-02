@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file social_wall.module
+ * TODO: Enter file description here.
+ */
+
+use Lns\SocialFeed\Source\MixedSource;
+
+/**
+ * Implements hook_menu().
+ */
+function social_wall_menu() {
+
+  $items['admin/config/social_wall'] = array(
+    'title' => 'Social wall configuration',
+    'description' => 'Bluelink configuration',
+    'position' => 'left',
+    'weight' => -100,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer social_wall configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_init().
+ */
+function social_wall_init() {
+  require_once DRUPAL_ROOT . '/vendor/autoload.php';
+
+  /*
+  foreach(social_wall_get_mixed_source()->getFeed() as $item) {
+    echo '<pre>';
+    echo $item->getMessage();
+    echo '</pre>';
+  }
+   */
+
+}
+
+function social_wall_get_mixed_source() {
+
+  $feed = new MixedSource();
+  $sources = module_invoke_all('social_wall_sources');
+
+
+  foreach($sources as $source) {
+    $feed->addSource($source);
+  }
+
+  return $feed;
+}
+

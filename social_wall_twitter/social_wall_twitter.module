@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file social_wall_twitter.module
+ * TODO: Enter file description here.
+ */
+
+use Lns\SocialFeed\Source\TwitterSearchApiSource;
+use Lns\SocialFeed\Client\TwitterApiClient;
+use Lns\SocialFeed\Factory\PostFactory;
+
+/**
+ * Implements hook_menu().
+ */
+function social_wall_twitter_menu() {
+  $items['admin/config/social_wall/twitter'] = array(
+    'title'            => 'twitter',
+    'description'      => 'Twitter page configuration',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('social_wall_twitter_admin_settings'),
+    'access arguments' => array('administer social_wall configuration'),
+    'file'             => 'social_wall_twitter.admin.inc',
+    'file path'        => drupal_get_path('module', 'social_wall_twitter'),
+  );
+
+  return $items;
+}
+
+function social_wall_twitter_social_wall_sources() {
+
+  $postFactory = new PostFactory();
+  $settings = variable_get('social_wall_twitter_settings');
+
+  $client = new TwitterApiClient($settings['consumer_key'], $settings['consumer_secret']);
+
+  return new TwitterSearchApiSource($twitterClient, $postFactory, 'lanetscouade');
+}

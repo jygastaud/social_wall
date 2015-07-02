@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file social_wall.module
+ * TODO: Enter file description here.
+ */
+
+use Lns\SocialFeed\Source\FacebookPagePostsSource;
+use Lns\SocialFeed\Client\FacebookApiClient;
+use Lns\SocialFeed\Factory\PostFactory;
+
+function social_wall_facebook_social_wall_sources() {
+  $postFactory = new PostFactory();
+
+  $settings = variable_get('social_wall_facebook_settings');
+
+  $client = new FacebookApiClient($settings['client_key'], $client['client_secret']);
+
+  return new FacebookPagePostsSource($client, $postFactory, '31176228436');
+}
+
+/**
+ * Implements hook_menu().
+ */
+function social_wall_facebook_menu() {
+  $items['admin/config/social_wall/facebook'] = array(
+    'title'            => 'Facebook',
+    'description'      => 'Facebook page configuration',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('social_wall_facebook_admin_settings'),
+    'access arguments' => array('administer social_wall configuration'),
+    'file'             => 'social_wall_facebook.admin.inc',
+    'file path'        => drupal_get_path('module', 'social_wall_facebook'),
+  );
+
+  return $items;
+}
