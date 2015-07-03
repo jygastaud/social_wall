@@ -6,6 +6,7 @@
  */
 
 use Lns\SocialFeed\Source\MixedSource;
+use Lns\SocialFeed\SocialFeed;
 
 /**
  * Implements hook_menu().
@@ -27,31 +28,61 @@ function social_wall_menu() {
 }
 
 /**
+ * Implements hook_block_info().
+ */
+function social_wall_block_info() {
+  $blocks['social_wall'] = array(
+    'info' => t('Social wall'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
  * Implements hook_init().
  */
 function social_wall_init() {
   require_once DRUPAL_ROOT . '/vendor/autoload.php';
 
-  /*
-  foreach(social_wall_get_mixed_source()->getFeed() as $item) {
+  foreach(social_wall_get_mixed_providers()->getFeed() as $item) {
     echo '<pre>';
     echo $item->getMessage();
     echo '</pre>';
   }
-   */
 
 }
 
-function social_wall_get_mixed_source() {
+function social_wall_get_feed()
+{
+  $socialFeed = new SocialFeed();
 
-  $feed = new MixedSource();
-  $sources = module_invoke_all('social_wall_sources');
+  drupal_alter('social_wall_social_feed', $socialFeed);
 
+  return $socialFeed->getFeed();
+}
 
-  foreach($sources as $source) {
-    $feed->addSource($source);
+function social_wall_get_provider($name)
+{
+  $providers = social_wall_get_providers();
+
+  return $providers[$name];
+}
+
+function social_wall_get_providers() {
+
+  static $providers;
+  if (!isset($providers)) {
+    $providers = &drupal_static(__FUNCTION__);
   }
 
-  return $feed;
-}
+  $providers = array();
 
+  $nonIndexedProviders = module_invoke_all('social_wall_providers');
+
+  foreach($nonIndexedProviders as $provider) {
+    $providers[$provider->getName()] = $provider;
+  }
+
+  return $providers;
+}

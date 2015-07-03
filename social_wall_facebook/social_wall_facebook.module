@@ -5,18 +5,18 @@
  * TODO: Enter file description here.
  */
 
-use Lns\SocialFeed\Source\FacebookPagePostsSource;
+use Lns\SocialFeed\Provider\FacebookPagePostsProvider;
 use Lns\SocialFeed\Client\FacebookApiClient;
 use Lns\SocialFeed\Factory\PostFactory;
 
-function social_wall_facebook_social_wall_sources() {
+function social_wall_facebook_social_wall_providers() {
   $postFactory = new PostFactory();
 
   $settings = variable_get('social_wall_facebook_settings');
 
   $client = new FacebookApiClient($settings['client_key'], $client['client_secret']);
 
-  return new FacebookPagePostsSource($client, $postFactory, '31176228436');
+  return new FacebookPagePostsProvider($client, $postFactory);
 }
 
 /**
@@ -35,3 +35,4 @@ function social_wall_facebook_menu() {
 
   return $items;
 }
+

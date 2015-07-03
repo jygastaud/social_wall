@@ -5,8 +5,8 @@
  * TODO: Enter file description here.
  */
 
-use Lns\SocialFeed\Source\TwitterSearchApiSource;
-use Lns\SocialFeed\Client\TwitterApiClient;
+use Lns\SocialFeed\Provider\FacebookPagePostsProvider;
+use Lns\SocialFeed\Client\FacebookApiClient;
 use Lns\SocialFeed\Factory\PostFactory;
 
 /**
@@ -26,12 +26,12 @@ function social_wall_twitter_menu() {
   return $items;
 }
 
-function social_wall_twitter_social_wall_sources() {
+function social_wall_twitter_social_wall_providers() {
 
   $postFactory = new PostFactory();
   $settings = variable_get('social_wall_twitter_settings');
 
   $client = new TwitterApiClient($settings['consumer_key'], $settings['consumer_secret']);
 
-  return new TwitterSearchApiSource($twitterClient, $postFactory, 'lanetscouade');
+  return new FacebookPagePostsProvider($twitterClient, $postFactory);
 }
