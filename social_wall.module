@@ -40,17 +40,54 @@ function social_wall_block_info() {
 }
 
 /**
+ * Implements hook_block_view().
+ */
+function social_wall_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'social_wall':
+      $block['subject'] = t('Social Wall');
+      $block['content'] = _social_wall_social_wall_content();
+      break;
+  }
+
+  return $block;
+}
+
+function _social_wall_social_wall_content() {
+  $render = array();
+
+  foreach(social_wall_get_feed() as $item) {
+    $render[] = array(
+      '#markup' => theme('social_wall_card', [
+        'post' => $item
+      ])
+    );
+  }
+
+  return $render;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function social_wall_theme($existing, $type, $theme, $path) {
+  return array(
+    'social_wall_card' => array(
+      'template' => 'template/social_wall_card',
+      'variables' => array(
+        'post' => NULL
+      )
+    )
+  );
+}
+
+/**
  * Implements hook_init().
  */
 function social_wall_init() {
   require_once DRUPAL_ROOT . '/vendor/autoload.php';
-
-  foreach(social_wall_get_mixed_providers()->getFeed() as $item) {
-    echo '<pre>';
-    echo $item->getMessage();
-    echo '</pre>';
-  }
-
 }
 
 function social_wall_get_feed()

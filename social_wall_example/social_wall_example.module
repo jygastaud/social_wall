@@ -1,0 +1,22 @@
+<?php
+
+use Lns\SocialFeed\Source;
+
+/**
+ * @file social_wall_twitter.module
+ * TODO: Enter file description here.
+ */
+
+function social_wall_example_social_wall_social_feed_alter(&$socialFeed) {
+  $socialFeed
+    ->addSource(new Source(
+      social_wall_get_provider('facebook_page'),
+      array('page_id' => '110483805633200')
+    ))
+    ->addSource(new Source(
+      social_wall_get_provider('twitter_search_api'),
+      array('query' => 'lanetscouade')
+    ))
+    ;
+}
+

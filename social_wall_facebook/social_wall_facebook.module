@@ -14,7 +14,7 @@ function social_wall_facebook_social_wall_providers() {
 
   $settings = variable_get('social_wall_facebook_settings');
 
-  $client = new FacebookApiClient($settings['client_key'], $client['client_secret']);
+  $client = new FacebookApiClient($settings['client_key'], $settings['client_secret']);
 
   return new FacebookPagePostsProvider($client, $postFactory);
 }

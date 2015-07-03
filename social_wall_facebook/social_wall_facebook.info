@@ -1,3 +1,4 @@
 name = Social wall facebook
 description = TODO: Description of module
 core = 7.x
+dependencies[] = social_wall

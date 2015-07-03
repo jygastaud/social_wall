@@ -1,0 +1,6 @@
+name = Social wall example
+description = TODO: Description of module
+core = 7.x
+dependencies[] = social_wall
+dependencies[] = social_wall_facebook
+dependencies[] = social_wall_twitter

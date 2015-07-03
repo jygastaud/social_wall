@@ -5,8 +5,10 @@
  * TODO: Enter file description here.
  */
 
-use Lns\SocialFeed\Provider\FacebookPagePostsProvider;
-use Lns\SocialFeed\Client\FacebookApiClient;
+use Lns\SocialFeed\Provider\TwitterSearchApiProvider;
+use Lns\SocialFeed\Provider\TwitterStatusesLookupApiProvider;
+use Lns\SocialFeed\Provider\Twitter;
+use Lns\SocialFeed\Client\TwitterApiClient;
 use Lns\SocialFeed\Factory\PostFactory;
 
 /**
@@ -33,5 +35,9 @@ function social_wall_twitter_social_wall_providers() {
 
   $client = new TwitterApiClient($settings['consumer_key'], $settings['consumer_secret']);
 
-  return new FacebookPagePostsProvider($twitterClient, $postFactory);
+  return array(
+    new TwitterSearchApiProvider($client, $postFactory),
+    new TwitterStatusesLookupApiProvider($client, $postFactory)
+  );
 }
+
