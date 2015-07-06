@@ -47,3 +47,9 @@ function social_wall_facebook_preprocess_social_wall_card(&$variables) {
     $variables['type'] = 'facebook';
   }
 }
+
+function social_wall_facebook_social_wall_post_types() {
+  return array(
+    'facebook' => 'Lns\SocialFeed\Model\FacebookPost'
+  );
+}

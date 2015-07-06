@@ -57,20 +57,9 @@ function social_wall_block_view($delta = '') {
 
 function _social_wall_social_wall_content() {
   $render = array(
-    '#prefix' => '<div class="row">',
-    '#suffix' => '</div>',
-    'content' => null
+    '#theme' => 'social_wall_feed',
+    '#feed' => social_wall_get_feed()
   );
-
-  foreach(social_wall_get_feed() as $item) {
-    $render['content'][] = array(
-      '#prefix' => '<div class="col-md-4">',
-      '#suffix' => '</div>',
-      '#markup' => theme('social_wall_card', [
-        'post' => $item
-      ])
-    );
-  }
 
   return $render;
 }
@@ -80,8 +69,20 @@ function _social_wall_social_wall_content() {
  */
 function social_wall_theme($existing, $type, $theme, $path) {
   return array(
+    'social_wall_feed' => array(
+      'template' => 'social_wall_feed',
+      'file' => 'theme.inc',
+      'path' => drupal_get_path('module', 'social_wall') . '/theme',
+      'pattern' => 'social_wall_feed__',
+      'variables' => array(
+        'feed' => NULL
+      )
+    ),
     'social_wall_card' => array(
-      'template' => 'template/social_wall_card',
+      'template' => 'social_wall_card',
+      'file' => 'theme.inc',
+      'path' => drupal_get_path('module', 'social_wall') . '/theme',
+      'pattern' => 'social_wall_card__',
       'variables' => array(
         'post' => NULL
       )
@@ -130,3 +131,30 @@ function social_wall_get_providers() {
 
   return $providers;
 }
+
+/**
+ * social_wall_get_post_type
+ *
+ * @param PostInterface $post
+ * @return type name of the post
+ */
+function social_wall_get_post_type($post) {
+  $types = social_wall_get_post_types();
+
+  $typesFlipped = array_flip($types);
+
+  return $typesFlipped[get_class($post)];
+}
+
+function social_wall_get_post_types() {
+
+  static $types;
+  if (!isset($types)) {
+    $types = &drupal_static(__FUNCTION__);
+  }
+
+  $types = module_invoke_all('social_wall_post_types');
+
+  return $types;
+}
+

@@ -1,4 +1,4 @@
-<article class="social-card social-card-<?php echo $type ?>">
+<article class="<?php echo $classes ?>">
     <header>
         <div class="pull-left">
             <a href="#">

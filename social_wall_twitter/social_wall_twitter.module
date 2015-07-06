@@ -44,12 +44,8 @@ function social_wall_twitter_social_wall_providers() {
   );
 }
 
-/**
- * Implements hook_preprocess_HOOK().
- */
-function social_wall_twitter_preprocess_social_wall_card(&$variables) {
-  if($variables['post'] instanceof \Lns\SocialFeed\Model\Tweet) {
-    $variables['type'] = 'twitter';
-  }
+function social_wall_twitter_social_wall_post_types() {
+  return array(
+    'twitter' => 'Lns\SocialFeed\Model\Tweet'
+  );
 }
-
