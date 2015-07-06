@@ -9,6 +9,9 @@ use Lns\SocialFeed\Provider\FacebookPagePostsProvider;
 use Lns\SocialFeed\Client\FacebookApiClient;
 use Lns\SocialFeed\Factory\PostFactory;
 
+/**
+ * Implements hook_social_wall_providers.
+ */
 function social_wall_facebook_social_wall_providers() {
   $postFactory = new PostFactory();
 

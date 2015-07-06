@@ -33,4 +33,17 @@ function social_wall_example_social_wall_social_feed_alter(&$socialFeed) {
     ;
 ```
 
+You can add your custom providers implementing `hook_social_wall_providers` hook.
+the hook must return a porvider or an array of providers.
 
+```php
+/**
+ * Implements hook_social_wall_providers.
+ */
+function social_wall_example_social_wall_providers() {
+  return array(
+      new MyCustomProvider1(),
+      new MyCustomProvider2()
+  );
+}
+```

@@ -28,6 +28,9 @@ function social_wall_twitter_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_social_wall_providers.
+ */
 function social_wall_twitter_social_wall_providers() {
 
   $postFactory = new PostFactory();
