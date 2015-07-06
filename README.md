@@ -15,7 +15,7 @@ to add configure your twitter and facebook keys enable corresponding modules the
 
 to add a source to your feed use `hook__social_wall_social_feed_alter` :
 
-```
+```php
 // see  social_wall_example/social_wall_example.module
 /**
  * Implements hook_TYPE_alter.
@@ -31,7 +31,6 @@ function social_wall_example_social_wall_social_feed_alter(&$socialFeed) {
       array('query' => 'afriqueInnovation')
     ))
     ;
-`
 ```
 
 
