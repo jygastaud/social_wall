@@ -7,15 +7,18 @@ use Lns\SocialFeed\Source;
  * TODO: Enter file description here.
  */
 
+/**
+ * Implements hook_TYPE_alter.
+ */
 function social_wall_example_social_wall_social_feed_alter(&$socialFeed) {
   $socialFeed
     ->addSource(new Source(
       social_wall_get_provider('facebook_page'),
-      array('page_id' => '110483805633200')
+      array('page_id' => '107564825946579')
     ))
     ->addSource(new Source(
       social_wall_get_provider('twitter_search_api'),
-      array('query' => 'lanetscouade')
+      array('query' => 'afriqueInnovation')
     ))
     ;
 }
