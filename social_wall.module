@@ -207,4 +207,3 @@ function social_wall_preprocess_html(&$variables) {
   drupal_add_css(drupal_get_path('module', 'social_wall') . '/css/social_wall.css');
 }
 
-

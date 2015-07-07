@@ -7,7 +7,10 @@
         </div>
         <div class="pull-left">
             <a href="#">
-                <img class="media-object" src="<?php echo $post->getAuthor()->getProfilePicture()->getUrl() ?>"></img>
+                <?php echo theme('imagecache_external', array(
+                    'path'       => $post->getAuthor()->getProfilePicture()->getUrl(),
+                    'style_name' => 'sw_profile_picture'
+                )) ?>
             </a>
         </div>
         <div>
@@ -19,6 +22,9 @@
         <?php echo $post->getMessage() ?>
     </blockquote>
     <?php foreach($post->getMedias() as $media): ?>
-        <img class="img-responsive" src="<?php echo $media->getUrl() ?>"></img>
+        <?php echo theme('imagecache_external', array(
+            'path'       => $media->getUrl(),
+            'style_name' => 'sw_post_picture'
+        )) ?>
     <?php endforeach ?>
 </article>

@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function social_wall_install() {
+  $style = image_style_save(array('name' => 'sw_profile_picture'));
+  $effect = array(
+    'name' => 'image_scale',
+    'data' => array(
+      'width' => 64,
+      'height' => 64,
+      'upscale' => TRUE,
+    ),
+    'isid' => $style['isid'],
+  );
+
+  image_effect_save($effect);
+
+  $style = image_style_save(array('name' => 'sw_post_picture'));
+  $effect = array(
+    'name' => 'image_scale',
+    'data' => array(
+      'width' => 500,
+      'height' => 200,
+      'upscale' => FALSE,
+    ),
+    'isid' => $style['isid'],
+  );
+
+  image_effect_save($effect);
+}

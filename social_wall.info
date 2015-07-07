@@ -3,3 +3,6 @@ description = TODO: Description of module
 core = 7.x
 files[] = tests/social_wall.test
 dependencies[] = libraries
+dependencies[] = image
+dependencies[] = imagecache_external
+
