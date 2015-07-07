@@ -24,6 +24,7 @@ function template_preprocess_social_wall_card(&$variables) {
  * Implements hook_preprocess_social_wall_feed().
  */
 function template_preprocess_social_wall_feed(&$variables) {
+  libraries_load('salvattore');
 
   $variables['classes'] = implode($variables['classes_array']);
 }

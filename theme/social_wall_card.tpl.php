@@ -1,5 +1,10 @@
 <article class="<?php echo $classes ?>">
     <header>
+        <div class="icon-wrapper">
+            <svg class="icon social-card-icon-type">
+                <use xlink:href="#<?php echo $type ?>" />
+            </svg>
+        </div>
         <div class="pull-left">
             <a href="#">
                 <img class="media-object" src="<?php echo $post->getAuthor()->getProfilePicture()->getUrl() ?>"></img>

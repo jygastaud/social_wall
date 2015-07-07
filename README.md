@@ -4,6 +4,8 @@
 
 social wall module depends on SocialFeed PHP lib available in packagist, you can install this lib using composer : `composer require lns/social-feed`
 
+social wall also depends on salvattore.js librairies, you need to download lib from github into `sites/all/libraries/salvattore`
+
 ## Usage
 
 social wall create a new block named social wall, you can include this block in your page.

@@ -2,6 +2,4 @@ name = Social wall
 description = TODO: Description of module
 core = 7.x
 files[] = tests/social_wall.test
-files[] = includes/SocialWallAuthor.php
-files[] = includes/SocialWallPost.php
-dependencies[] = entity
+dependencies[] = libraries

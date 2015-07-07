@@ -27,6 +27,30 @@ function social_wall_menu() {
   return $items;
 }
 
+function social_wall_libraries_info() {
+  $libraries['salvattore'] = array(
+    'name' => 'salvattore',
+    'vendor url' => 'http://salvattore.com',
+    'download url' => 'https://github.com/rnmp/salvattore',
+    'version arguments' => array(
+      'file' => 'dist/salvattore.min.js',
+      // Salvattore 1.0.7
+      'pattern' => '/Salvattore (\d+\.+\d+.+\d+)/',
+      'lines' => 2,
+    ),
+    'files' => array(
+      'js' => array(
+        'dist/salvattore.min.js' => array(
+          'scope' => 'footer'
+        ),
+      )
+    )
+  );
+
+  return $libraries;
+}
+
+
 /**
  * Implements hook_block_info().
  */
@@ -46,19 +70,28 @@ function social_wall_block_view($delta = '') {
   $block = array();
 
   switch ($delta) {
-    case 'social_wall':
-      $block['subject'] = t('Social Wall');
-      $block['content'] = _social_wall_social_wall_content();
-      break;
+  case 'social_wall':
+
+    drupal_add_css(drupal_get_path('module', 'social_wall') . '/css/style.css', array(
+      'group' => CSS_DEFAULT,
+      'every_page' => TRUE
+    ));
+
+    $block['subject'] = t('Social Wall');
+    $block['content'] = _social_wall_social_wall_content();
+    break;
   }
 
   return $block;
 }
 
 function _social_wall_social_wall_content() {
+
   $render = array(
-    '#theme' => 'social_wall_feed',
-    '#feed' => social_wall_get_feed()
+    'feed' => array(
+      '#theme' => 'social_wall_feed',
+      '#feed' => social_wall_get_feed()
+    )
   );
 
   return $render;
@@ -157,4 +190,21 @@ function social_wall_get_post_types() {
 
   return $types;
 }
+
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function social_wall_preprocess_html(&$variables) {
+  $svg_file = DRUPAL_ROOT . '/' . drupal_get_path('module', 'social_wall') . '/theme/symbols.svg';
+
+  $variables['page']['page_top'][] = array(
+    '#markup' => file_get_contents($svg_file),
+    '#weight' => -100
+  );
+
+
+  drupal_add_css(drupal_get_path('module', 'social_wall') . '/css/social_wall.css');
+}
+
 

@@ -1,5 +1,5 @@
-<article class="<?php echo $classes ?>">
-<?php foreach($feed as $post): ?>
-<?php echo theme('social_wall_card', array('post' => $post)) ?>
-<?php endforeach ?>
+<article class="<?php echo $classes ?>" data-columns>
+    <?php foreach($feed as $post): ?>
+        <?php echo theme('social_wall_card', array('post' => $post)) ?>
+    <?php endforeach ?>
 </article>
