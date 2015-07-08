@@ -5,10 +5,9 @@
                 <use xlink:href="#<?php echo $type ?>" />
             </svg>
         </div>
-
         <div class="social-wall-card__account">
             <div>
-                <a href="#">
+                <a href="<?php echo $post->getAuthor()->getLink() ?>">
                     <?php echo theme('imagecache_external', array(
                         'path'       => $post->getAuthor()->getProfilePicture()->getUrl(),
                         'style_name' => 'sw_profile_picture'
@@ -25,9 +24,15 @@
         <?php echo $post->getMessage() ?>
     </blockquote>
     <?php foreach($post->getMedias() as $media): ?>
+        <a href="<?php echo $media->getLink() ?>">
         <?php echo theme('imagecache_external', array(
             'path'       => $media->getUrl(),
-            'style_name' => 'sw_post_picture'
+            'style_name' => 'sw_post_picture',
+            'attributes' => array(
+                'class' => array('img-responsive')
+            )
         )) ?>
+        </a>
     <?php endforeach ?>
 </article>
+
