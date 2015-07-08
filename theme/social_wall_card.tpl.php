@@ -15,7 +15,22 @@
                 </a>
             </div>
             <div>
-                <p><?php echo $post->getAuthor()->getName() ?></p>
+                <?php if($type == 'twitter'): ?>
+                <p>
+                    <?php echo $post->getAuthor()->getName() ?>
+                </p>
+                <p class="social-wall-card__account__screen-name">
+                    <a href="<?php echo $post->getAuthor()->getLink() ?>">
+                        <?php echo '@' . $post->getAuthor()->getProperty('screen_name') ?>
+                    </a>
+                </p>
+                <?php else: ?>
+                <p>
+                    <a href="<?php echo $post->getAuthor()->getLink() ?>">
+                        <?php echo $post->getAuthor()->getName() ?>
+                    </a>
+                </p>
+                <?php endif ?>
             </div>
         </div>
     </header>
