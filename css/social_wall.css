@@ -1,23 +1,79 @@
-.social-wall-feed::before {
-    content: '3 .col-md-4';
+/* ------ social feed ------- */
+.social-wall-feed .col-md-4{
+    padding:0 10px;
 }
 
-.social-wall-feed {
+.social-wall-feed .row{
+    margin:0 -10px;
 }
 
-.icon-wrapper {
-    text-align: center;
-    margin: 15px 0;
+@media (max-width: 767px) {
+    .social-wall-feed::before {
+        content: '1 .col-xs-12';
+    }
 }
 
+@media (min-width: 768px) and (max-width: 991px) {
+    .social-wall-feed::before {
+        content: '2 .col-sm-6';
+    }
+}
+
+@media (min-width: 992px) {
+    .social-wall-feed::before {
+        content: '3 .col-md-4';
+    }
+}
+
+/* ----- card ------ */
 .social-wall-card {
-    border: 1px solid #000;
-    margin-bottom: 25px;
-    padding: 15px;
+    border: 1px solid #e5e5e5;
+    border-radius:10px;
+    margin-bottom: 20px;
+    padding: 20px;
 }
 
-.social-card-icon-type {
-    display: inline-block;
-    height: 32px;
-    width: 32px;
+.social-wall-card img{
+    max-width:100%;
+}
+
+.social-wall-card p{
+    margin:0;
+}
+
+.social-wall-card__icon-wrap{
+    text-align:center;
+}
+
+.social-wall-card__account > div{
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.social-wall-card__account > div:last-child{
+    width:calc(100% - 70px);
+    padding-left:10px;
+}
+
+.social-wall-card__account img{
+    border-radius:50%;
+}
+
+.social-wall-card__msg{
+    margin:10px 0 20px;
+    padding:10px 20px;
+    border-left:5px solid #eee;
+}
+
+/* ----- icon ------ */
+.icon-social-feed--twitter{
+    fill:#55acee;
+}
+
+.icon-social-feed--facebook{
+    fill:#3b5998;
+}
+
+.icon-social-feed--instagram{
+    fill:#3f729b;
 }
