@@ -15,13 +15,13 @@
                 </a>
             </div>
             <div>
-                <?php if($type == 'twitter'): ?>
+                <?php if($post->getAuthor()->getUsername()): ?>
                 <p>
                     <?php echo $post->getAuthor()->getName() ?>
                 </p>
                 <p class="social-wall-card__account__screen-name">
                     <a href="<?php echo $post->getAuthor()->getLink() ?>">
-                        <?php echo '@' . $post->getAuthor()->getProperty('screen_name') ?>
+                        <?php echo '@' . $post->getAuthor()->getUsername() ?>
                     </a>
                 </p>
                 <?php else: ?>

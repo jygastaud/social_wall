@@ -36,6 +36,10 @@ function social_wall_twitter_social_wall_providers() {
   $postFactory = new PostFactory();
   $settings = variable_get('social_wall_twitter_settings');
 
+  if(!$settings) {
+    return array();
+  }
+
   $client = new TwitterApiClient($settings['consumer_key'], $settings['consumer_secret']);
 
   return array(

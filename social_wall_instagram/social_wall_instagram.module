@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * @file social_wall.module
+ * TODO: Enter file description here.
+ */
+
+use Lns\SocialFeed\Provider\InstagramTagProvider;
+use Lns\SocialFeed\Client\InstagramApiClient;
+use Lns\SocialFeed\Factory\PostFactory;
+
+/**
+ * Implements hook_social_wall_providers.
+ */
+function social_wall_instagram_social_wall_providers() {
+  $postFactory = new PostFactory();
+
+  $settings = variable_get('social_wall_instagram_settings');
+
+  if(!$settings) {
+    return array();
+  }
+
+  $client = new InstagramApiClient($settings['client_key'], $settings['client_secret']);
+
+  return new InstagramTagProvider($client, $postFactory);
+}
+
+/**
+ * Implements hook_menu().
+ */
+function social_wall_instagram_menu() {
+  $items['admin/config/social_wall/instagram'] = array(
+    'title'            => 'Instagram',
+    'description'      => 'Instagram page configuration',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('social_wall_instagram_admin_settings'),
+    'access arguments' => array('administer social_wall configuration'),
+    'file'             => 'social_wall_instagram.admin.inc',
+    'file path'        => drupal_get_path('module', 'social_wall_instagram'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function social_wall_instagram_preprocess_social_wall_card(&$variables) {
+  if($variables['post'] instanceof \Lns\SocialFeed\Model\InstagramPost) {
+    $variables['type'] = 'instagram';
+  }
+}
+
+function social_wall_instagram_social_wall_post_types() {
+  return array(
+    'instagram' => 'Lns\SocialFeed\Model\InstagramPost'
+  );
+}

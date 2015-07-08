@@ -1,0 +1,4 @@
+name = Social wall instagram
+description = TODO: Description of module
+core = 7.x
+dependencies[] = social_wall
