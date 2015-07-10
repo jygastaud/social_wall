@@ -207,3 +207,22 @@ function social_wall_preprocess_html(&$variables) {
   drupal_add_css(drupal_get_path('module', 'social_wall') . '/css/social_wall.css');
 }
 
+function social_wall_format_message($message, $references, $type) {
+  if($type == 'twitter') {
+    $formatter = new \Lns\SocialFeed\Formatter\TweetMessageFormatter();
+    return $formatter->format($message, $references);
+  }
+
+  if($type == 'facebook') {
+    $formatter = new \Lns\SocialFeed\Formatter\FacebookMessageFormatter();
+    return $formatter->format($message, $references);
+  }
+
+  if($type == 'instagram') {
+    $formatter = new \Lns\SocialFeed\Formatter\InstagramMessageFormatter();
+    return $formatter->format($message, $references);
+  }
+
+  return $message;
+}
+

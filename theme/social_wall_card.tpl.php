@@ -35,7 +35,7 @@
         </div>
     </header>
     <blockquote class="social-wall-card__msg">
-        <?php echo $post->getMessage() ?>
+        <?php echo social_wall_format_message($post->getMessage(), $post->getReferences(), $type) ?>
     </blockquote>
     <div class="social-wall-card__illu">
         <?php foreach($post->getMedias() as $media): ?>
