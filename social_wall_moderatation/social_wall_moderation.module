@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function social_wall_moderation_menu() {
+  $items['socialwall/blacklist/%/%'] = array(
+    'page callback' => 'social_wall_moderatation_add_to_blacklist',
+    'page arguments' => array(3, 2),
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('moderate social wall')
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function social_wall_moderation_permission() {
+  return array(
+    'moderate social wall' =>  array(
+      'title' => t('Moderate social wall'),
+      'description' => t('Perform moderation tasks for social_wall'),
+    ),
+  );
+}
+
+function social_wall_moderatation_add_to_blacklist($identifier, $type) {
+  $bid = db_insert('sw_moderation_blacklist') // Table name no longer needs {}
+    ->fields(array(
+      'identifier' => $identifier,
+      'type'       => $type,
+      'created'    => REQUEST_TIME,
+    ))
+    ->execute();
+
+  $commands = array();
+  $commands[] = ajax_command_remove('[data-identifier=' . $identifier .']');
+
+  ajax_deliver(array(
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  ));
+}
+
+
+function social_wall_moderation_is_blacklisted($post) {
+  return (bool) db_select('sw_moderation_blacklist', 'b')
+    ->fields('b', array('bid'))
+    ->condition('identifier', $post->getIdentifier(),'=')
+    ->condition('type', social_wall_get_post_type($post),'=')
+    ->countQuery()
+    ->execute()
+    ->fetchField();
+}

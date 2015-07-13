@@ -1,0 +1,6 @@
+name = Social wall moderation
+description = Social wall moderation
+core = 7.x
+dependencies[] = social_wall
+
+

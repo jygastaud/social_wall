@@ -69,6 +69,7 @@ function template_preprocess_social_wall_card(&$variables) {
  */
 function template_preprocess_social_wall_feed(&$variables) {
   libraries_load('salvattore');
+  drupal_add_library('system', 'drupal.ajax');
 
   $variables['classes'] = implode($variables['classes_array']);
 
@@ -77,6 +78,9 @@ function template_preprocess_social_wall_feed(&$variables) {
   $interval = 60 * 5;
 
   foreach($variables['social_feed']->getFeed() as $post) {
+    if(module_exists('social_wall_moderation') && social_wall_moderation_is_blacklisted($post)) {
+      continue;
+    }
     $posts_render_array[] = array(
       '#theme' => 'social_wall_card',
       '#post' => $post,

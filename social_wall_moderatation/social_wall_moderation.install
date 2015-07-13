@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function social_wall_moderation_schema() {
+  $schema['sw_moderation_blacklist'] = array(
+    'fields' => array(
+      'bid' => array(
+        'description' => 'The primary identifier for a blacklist entry.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'identifier' => array(
+        'description' => 'Post identifier',
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 64,
+      ),
+      'type' => array(
+        'description' => 'The {post_type} of this blacklisted post.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'created' => array(
+        'type' => 'int',
+        'length' => 32,
+        'unsigned' => FALSE,
+        'not null' => TRUE,
+      )
+    ),
+    'unique keys' => array(
+      'identifier_type' => array('identifier', 'type'),
+    ),
+    'primary key' => array('bid'),
+  );
+
+  return $schema;
+}

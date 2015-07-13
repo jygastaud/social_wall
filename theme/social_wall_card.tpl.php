@@ -1,9 +1,13 @@
-<article class="<?php print $classes ?>">
+<article class="<?php print $classes ?>" data-identifier="<?php print $post->getIdentifier() ?>" data-type="<?php print $type ?>">
     <header class="clearfix social-wall-card__header">
         <div class="social-wall-card__icon-wrap">
             <svg class="icon-social-feed icon-social-feed--<?php print $type ?>" width="32px" height="32px">
                 <use xlink:href="#<?php print $type ?>" />
             </svg>
+        </div>
+        <div class="social-wall-card__actions">
+            <?php print render($action) ?>
+            <?php print l(t('Delete'), 'socialwall/blacklist/' . $type .'/' . $post->getIdentifier(), array('attributes' => array('class' => 'use-ajax'))) ?>
         </div>
         <div class="social-wall-card__account">
             <div>
