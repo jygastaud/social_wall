@@ -90,7 +90,7 @@ function _social_wall_social_wall_content() {
   $render = array(
     'feed' => array(
       '#theme' => 'social_wall_feed',
-      '#feed' => social_wall_get_feed()
+      '#social_feed' => social_wall_get_social_feed()
     )
   );
 
@@ -108,7 +108,7 @@ function social_wall_theme($existing, $type, $theme, $path) {
       'path' => drupal_get_path('module', 'social_wall') . '/theme',
       'pattern' => 'social_wall_feed__',
       'variables' => array(
-        'feed' => NULL
+        'social_feed' => NULL
       )
     ),
     'social_wall_card' => array(
@@ -123,7 +123,6 @@ function social_wall_theme($existing, $type, $theme, $path) {
   );
 }
 
-
 /**
  * Implements hook_init().
  */
@@ -131,13 +130,13 @@ function social_wall_init() {
   require_once DRUPAL_ROOT . '/vendor/autoload.php';
 }
 
-function social_wall_get_feed()
+function social_wall_get_social_feed()
 {
   $socialFeed = new SocialFeed();
 
   drupal_alter('social_wall_social_feed', $socialFeed);
 
-  return $socialFeed->getFeed();
+  return $socialFeed;
 }
 
 function social_wall_get_provider($name)

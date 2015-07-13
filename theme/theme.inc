@@ -18,6 +18,50 @@ function template_preprocess_social_wall_card(&$variables) {
   }
 
   $variables['classes'] = implode($variables['classes_array']);
+
+  $post = $variables['post'];
+
+  // prepare profile picture
+  $profile_picture_image = array(
+    '#theme' => 'imagecache_external',
+    '#path' => $post->getAuthor()->getProfilePicture()->getUrl(),
+    '#style_name' => 'sw_profile_picture'
+  );
+
+  $variables['profile_picture'] = array(
+    '#theme' => 'link',
+    '#text' => drupal_render($profile_picture_image),
+    '#path' => $post->getAuthor()->getLink(),
+    '#options' => array(
+      'attributes' => array(),
+      'html' => TRUE,
+    )
+  );
+
+  // prepare post medias
+  $variables['medias'] = array();
+
+  foreach($post->getMedias() as $media) {
+
+    $image = array(
+      '#theme' => 'imagecache_external',
+      '#path'       => $media->getUrl(),
+      '#style_name' => 'sw_post_picture',
+      '#attributes' => array(
+        'class' => array('img-responsive')
+      )
+    );
+
+    $variables['medias'][] = array(
+      '#theme' => 'link',
+      '#text' => drupal_render($image),
+      '#path' => $media->getLink(),
+      '#options' => array(
+        'attributes' => array(),
+        'html' => TRUE,
+      ),
+    );
+  }
 }
 
 /**
@@ -27,4 +71,22 @@ function template_preprocess_social_wall_feed(&$variables) {
   libraries_load('salvattore');
 
   $variables['classes'] = implode($variables['classes_array']);
+
+  $posts_render_array = array();
+
+  $interval = 60 * 5;
+
+  foreach($variables['social_feed']->getFeed() as $post) {
+    $posts_render_array[] = array(
+      '#theme' => 'social_wall_card',
+      '#post' => $post,
+      '#cache' => array(
+        'keys' => array('social_wall', 'post', $post->getIdentifier()),
+        'expire' => time() + $interval,
+        'granularity' => DRUPAL_CACHE_PER_ROLE,
+      ),
+    );
+  }
+
+  $variables['posts'] = $posts_render_array;
 }

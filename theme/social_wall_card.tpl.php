@@ -1,33 +1,28 @@
-<article class="<?php echo $classes ?>">
+<article class="<?php print $classes ?>">
     <header class="clearfix social-wall-card__header">
         <div class="social-wall-card__icon-wrap">
-            <svg class="icon-social-feed icon-social-feed--<?php echo $type ?>" width="32px" height="32px">
-                <use xlink:href="#<?php echo $type ?>" />
+            <svg class="icon-social-feed icon-social-feed--<?php print $type ?>" width="32px" height="32px">
+                <use xlink:href="#<?php print $type ?>" />
             </svg>
         </div>
         <div class="social-wall-card__account">
             <div>
-                <a href="<?php echo $post->getAuthor()->getLink() ?>">
-                    <?php echo theme('imagecache_external', array(
-                        'path'       => $post->getAuthor()->getProfilePicture()->getUrl(),
-                        'style_name' => 'sw_profile_picture'
-                    )) ?>
-                </a>
+                <?php print render($profile_picture) ?>
             </div>
             <div>
                 <?php if($post->getAuthor()->getUsername()): ?>
                 <p>
-                    <?php echo $post->getAuthor()->getName() ?>
+                    <?php print $post->getAuthor()->getName() ?>
                 </p>
                 <p class="social-wall-card__account__screen-name">
-                    <a href="<?php echo $post->getAuthor()->getLink() ?>">
-                        <?php echo '@' . $post->getAuthor()->getUsername() ?>
+                    <a href="<?php print $post->getAuthor()->getLink() ?>">
+                        <?php print '@' . $post->getAuthor()->getUsername() ?>
                     </a>
                 </p>
                 <?php else: ?>
                 <p>
-                    <a href="<?php echo $post->getAuthor()->getLink() ?>">
-                        <?php echo $post->getAuthor()->getName() ?>
+                    <a href="<?php print $post->getAuthor()->getLink() ?>">
+                        <?php print $post->getAuthor()->getName() ?>
                     </a>
                 </p>
                 <?php endif ?>
@@ -35,24 +30,14 @@
         </div>
     </header>
     <blockquote class="social-wall-card__msg">
-        <?php echo social_wall_format_message($post->getMessage(), $post->getReferences(), $type) ?>
+        <?php print social_wall_format_message($post->getMessage(), $post->getReferences(), $type) ?>
     </blockquote>
     <div class="social-wall-card__illu">
-        <?php foreach($post->getMedias() as $media): ?>
-            <a href="<?php echo $media->getLink() ?>">
-            <?php echo theme('imagecache_external', array(
-                'path'       => $media->getUrl(),
-                'style_name' => 'sw_post_picture',
-                'attributes' => array(
-                    'class' => array('img-responsive')
-                )
-            )) ?>
-            </a>
-        <?php endforeach ?>
+        <?php print render($medias) ?>
     </div>
 
     <footer class="social-wall-card__footer">
-        <time datetime="<?php echo $post->getCreatedAt()->format('Y-m-d H:i:s') ?>"><?php echo format_date($post->getCreatedAt()->format('U')) ?></time>
+        <time datetime="<?php print $post->getCreatedAt()->format('Y-m-d H:i:s') ?>"><?php print format_date($post->getCreatedAt()->format('U')) ?></time>
     </footer>
 </article>
 
