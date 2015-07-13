@@ -8,6 +8,7 @@ function template_preprocess_social_wall_card(&$variables) {
   $type = social_wall_get_post_type($variables['post']);
   $variables['type'] = $type;
   $variables['classes_array'][] = 'social-wall-card--' . $type;
+  $variables['actions'] = array();
 
   $types = social_wall_get_post_types();
 

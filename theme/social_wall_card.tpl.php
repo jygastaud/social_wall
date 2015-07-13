@@ -6,8 +6,7 @@
             </svg>
         </div>
         <div class="social-wall-card__actions">
-            <?php print render($action) ?>
-            <?php print l(t('Delete'), 'socialwall/blacklist/' . $type .'/' . $post->getIdentifier(), array('attributes' => array('class' => 'use-ajax'))) ?>
+            <?php print render($actions) ?>
         </div>
         <div class="social-wall-card__account">
             <div>
