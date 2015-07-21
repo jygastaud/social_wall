@@ -7,13 +7,13 @@
 
 use Lns\SocialFeed\Provider\InstagramTagProvider;
 use Lns\SocialFeed\Client\InstagramApiClient;
-use Lns\SocialFeed\Factory\PostFactory;
+use Lns\SocialFeed\Factory\InstagramPostFactory;
 
 /**
  * Implements hook_social_wall_providers.
  */
 function social_wall_instagram_social_wall_providers() {
-  $postFactory = new PostFactory();
+  $postFactory = new InstagramPostFactory();
 
   $settings = variable_get('social_wall_instagram_settings');
 

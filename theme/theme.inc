@@ -78,10 +78,11 @@ function template_preprocess_social_wall_feed(&$variables) {
 
   $interval = 60 * 5;
 
-  foreach($variables['social_feed']->getFeed() as $post) {
+  foreach(new \LimitIterator($variables['social_feed'], 0, 100) as $post) {
     if(module_exists('social_wall_moderation') && social_wall_moderation_is_blacklisted($post)) {
       continue;
     }
+
     $posts_render_array[] = array(
       '#theme' => 'social_wall_card',
       '#post' => $post,

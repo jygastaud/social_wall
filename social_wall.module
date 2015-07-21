@@ -5,7 +5,6 @@
  * TODO: Enter file description here.
  */
 
-use Lns\SocialFeed\Source\MixedSource;
 use Lns\SocialFeed\SocialFeed;
 
 /**

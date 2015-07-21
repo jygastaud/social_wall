@@ -9,7 +9,7 @@ use Lns\SocialFeed\Provider\TwitterSearchApiProvider;
 use Lns\SocialFeed\Provider\TwitterStatusesLookupApiProvider;
 use Lns\SocialFeed\Provider\Twitter;
 use Lns\SocialFeed\Client\TwitterApiClient;
-use Lns\SocialFeed\Factory\PostFactory;
+use Lns\SocialFeed\Factory\TweetFactory;
 
 /**
  * Implements hook_menu().
@@ -33,7 +33,7 @@ function social_wall_twitter_menu() {
  */
 function social_wall_twitter_social_wall_providers() {
 
-  $postFactory = new PostFactory();
+  $postFactory = new TweetFactory();
   $settings = variable_get('social_wall_twitter_settings');
 
   if(!$settings) {
