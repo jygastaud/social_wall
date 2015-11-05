@@ -2,3 +2,4 @@ name = Social wall twitter
 description = TODO: Description of module
 core = 7.x
 dependencies[] = social_wall
+dependencies[] = entity

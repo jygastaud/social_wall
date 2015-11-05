@@ -10,6 +10,9 @@ use Lns\SocialFeed\Provider\TwitterStatusesLookupApiProvider;
 use Lns\SocialFeed\Provider\Twitter;
 use Lns\SocialFeed\Client\TwitterApiClient;
 use Lns\SocialFeed\Factory\TweetFactory;
+use Lns\SocialFeed\SocialFeed;
+use Lns\SocialFeed\Source;
+use Lns\SocialFeed\Provider;
 
 /**
  * Implements hook_menu().
@@ -52,4 +55,98 @@ function social_wall_twitter_social_wall_post_types() {
   return array(
     'twitter' => 'Lns\SocialFeed\Model\Tweet'
   );
+}
+
+/**
+ * Implements hook_entity_info().
+ *
+ * These entities are usefull to keep twitter queries and status IDs because
+ * twitter API just gives data for 6-9 days ago
+ * use these entities in your own module to get older statuses
+ */
+function social_wall_twitter_entity_info() {
+  $info = array();
+
+  $info['twitter_query'] = array(
+    'label' => t('Twitter query'),
+    'base table' => 'social_wall_twitter_queries',
+    'entity keys' => array(
+      'id' => 'id'
+    ),
+    'entity class' => 'Entity',
+    'controller class' => 'EntityAPIController',
+    'module' => 'social_wall_twitter',
+  );
+
+  $info['twitter_status'] = array(
+    'label' => t('Twitter status'),
+    'base table' => 'social_wall_twitter_statuses',
+    'entity keys' => array(
+      'id' => 'status_id',
+      'query_id' => 'query_id'
+    ),
+    'entity class' => 'Entity',
+    'controller class' => 'EntityAPIController',
+    'module' => 'social_wall_twitter',
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function social_wall_twitter_cron() {
+  // save new statuses on each cron process
+  _social_wall_twitter_save_statuses();
+}
+
+/**
+ * save statuses as entitities
+ */
+function _social_wall_twitter_save_statuses() {
+
+  $twitter_queries = entity_load('twitter_query');
+  foreach ($twitter_queries as $query) {
+
+    $socialFeed = new SocialFeed();
+    $socialFeed->addSource(new Source(social_wall_get_provider('twitter_search_api'), array('query' => $query->query_value)));
+
+    foreach ($socialFeed as $twitter_feed) {
+
+      // save new status if it doesn't already exist
+      if (_social_wall_twitter_get_statuses($twitter_feed->getIdentifier(), $query->id) == NULL) {
+        $status = entity_create('twitter_status', array());
+        $status->status_id = $twitter_feed->getIdentifier();
+        $status->query_id = $query->id;
+        $created = $twitter_feed->getCreatedAt();
+        $status->created = $created->format('Y-m-d H:i:s');
+        $status->save();
+      }
+    }
+  }
+}
+
+/**
+ * helper to get twitter status ids
+ * @param
+ *   string status_id
+ *   int query_id
+ * @return array of twitter_status ids , NULL if there is no result
+ */
+function _social_wall_twitter_get_statuses($status_id = NULL, $query_id = NULL) {
+  $query = new EntityFieldQuery();
+
+  $query->entityCondition('entity_type', 'twitter_status', '=');
+  if ($status_id) {
+    $query->propertyCondition('status_id', $status_id, '=');
+  }
+  if ($query_id) {
+      $query->propertyCondition('query_id', $query_id, '=');
+  }
+  // to alter this query
+  $query->addTag('social_wall_twitter_statuses');
+  $result = $query->execute();
+
+  return $result['twitter_status'];
 }

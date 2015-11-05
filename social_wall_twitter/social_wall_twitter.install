@@ -1,0 +1,55 @@
+<?php
+/**
+ * Implements hook_schema().
+ */
+function social_wall_twitter_schema() {
+  $schema = array();
+  $schema['social_wall_twitter_queries'] = array(
+    'description' => 'The base table for query entity',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Primary key of the query entity',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'query_value' => array(
+        'description' => 'Query value',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'unique keys' => array(
+      'query_value' => array('query_value')
+    ),
+  );
+
+  $schema['social_wall_twitter_statuses'] = array(
+    'description' => 'The base table for status entity',
+    'fields' => array(
+      'status_id'=> array(
+        'description' => 'Twitter status ID.',
+        'type' => 'varchar',
+        'length' => 120,
+        'not null' => FALSE,
+      ),
+      'query_id' => array(
+        'description' => 'Id of the corresponding query in social_wall_twitter_queries table.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => FALSE,
+      ),
+      'created' => array(
+        'description' => 'Twitter status created date time',
+        'type' => 'varchar',
+        'mysql_type' => 'datetime',
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('status_id', 'query_id'),
+  );
+
+  return $schema;
+}
