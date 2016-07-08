@@ -6,6 +6,7 @@
  */
 
 use Lns\SocialFeed\Provider\InstagramTagProvider;
+use Lns\SocialFeed\Provider\InstagramUserMediaProvider;
 use Lns\SocialFeed\Client\InstagramApiClient;
 use Lns\SocialFeed\Factory\InstagramPostFactory;
 
@@ -23,7 +24,10 @@ function social_wall_instagram_social_wall_providers() {
 
   $client = new InstagramApiClient($settings['client_key'], $settings['client_secret']);
 
-  return new InstagramTagProvider($client, $postFactory);
+  return array(
+    new InstagramTagProvider($client, $postFactory),
+    new InstagramUserMediaProvider($client, $postFactory)
+  );
 }
 
 /**
