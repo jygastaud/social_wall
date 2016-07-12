@@ -122,13 +122,6 @@ function social_wall_theme($existing, $type, $theme, $path) {
   );
 }
 
-/**
- * Implements hook_init().
- */
-function social_wall_init() {
-  require_once DRUPAL_ROOT . '/vendor/autoload.php';
-}
-
 function social_wall_get_social_feed()
 {
   $socialFeed = new SocialFeed();

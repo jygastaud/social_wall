@@ -18,11 +18,21 @@ function social_wall_instagram_social_wall_providers() {
 
   $settings = variable_get('social_wall_instagram_settings');
 
-  if(!$settings) {
+  if (!$settings) {
     return array();
   }
 
-  $client = new InstagramApiClient($settings['client_key'], $settings['client_secret']);
+  $instagramAuth = variable_get('social_wall_instagram_auth', array());
+
+  $token = social_wall_instagram_get_access_token();
+
+  if (!isset($token)) {
+    return array();
+  }
+
+  $client = new InstagramApiClient($token);
+
+  $provider = new InstagramUserMediaProvider($client, $postFactory);
 
   return array(
     new InstagramTagProvider($client, $postFactory),
@@ -44,6 +54,15 @@ function social_wall_instagram_menu() {
     'file path'        => drupal_get_path('module', 'social_wall_instagram'),
   );
 
+  $items['admin/config/social_wall/instagram/connect'] = array(
+    'title'            => 'Instagram',
+    'description'      => 'Instagram page configuration',
+    'page callback'    => 'social_wall_instagram_connect',
+    'access callback'  => TRUE,
+    'file'             => 'social_wall_instagram.admin.inc',
+    'file path'        => drupal_get_path('module', 'social_wall_instagram'),
+  );
+
   return $items;
 }
 
@@ -60,4 +79,30 @@ function social_wall_instagram_social_wall_post_types() {
   return array(
     'instagram' => 'Lns\SocialFeed\Model\InstagramPost'
   );
+}
+
+function social_wall_instagram_get_token_provider($store) {
+
+  $social_wall_instagram_settings = variable_get('social_wall_instagram_settings');
+
+  if (!$social_wall_instagram_settings) {
+    return null;
+  }
+
+  $redirectUrl = url('admin/config/social_wall/instagram/connect', array('absolute' => true));
+
+  $provider = new \Lns\SocialFeed\Client\InstagramTokenProvider(
+    $social_wall_instagram_settings['client_key'],
+    $social_wall_instagram_settings['client_secret'],
+    $redirectUrl,
+    $store
+  );
+
+  return $provider;
+}
+
+function social_wall_instagram_get_access_token() {
+  $instagramAuth = variable_get('social_wall_instagram_auth', array());
+
+  return isset($instagramAuth['token']) ? $instagramAuth['token'] : null;
 }
