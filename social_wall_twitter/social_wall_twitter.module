@@ -7,6 +7,7 @@
 
 use Lns\SocialFeed\Provider\TwitterSearchApiProvider;
 use Lns\SocialFeed\Provider\TwitterStatusesLookupApiProvider;
+use Lns\SocialFeed\Provider\TwitterStatusesUserTimelineApiProvider;
 use Lns\SocialFeed\Provider\Twitter;
 use Lns\SocialFeed\Client\TwitterApiClient;
 use Lns\SocialFeed\Factory\TweetFactory;
@@ -47,7 +48,8 @@ function social_wall_twitter_social_wall_providers() {
 
   return array(
     new TwitterSearchApiProvider($client, $postFactory),
-    new TwitterStatusesLookupApiProvider($client, $postFactory)
+    new TwitterStatusesLookupApiProvider($client, $postFactory),
+    new TwitterStatusesUserTimelineApiProvider($client, $postFactory),
   );
 }
 
