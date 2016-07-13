@@ -135,7 +135,7 @@ function social_wall_get_provider($name)
 {
   $providers = social_wall_get_providers();
 
-  return isset($providers[$name]) ? $providers['name'] : null;
+  return isset($providers[$name]) ? $providers[$name] : null;
 }
 
 function social_wall_get_providers() {
