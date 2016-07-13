@@ -82,6 +82,17 @@ function social_wall_block_configure($delta = '') {
 }
 
 /**
+ * Implements hook_block_save().
+ */
+function social_wall_block_save($delta = '', $edit = array()) {
+  if ($delta != 'social_wall') {
+    return;
+  }
+
+  variable_set('social_wall_card_count', $edit['social_wall_card_count']);
+}
+
+/**
  * Implements hook_block_view().
  */
 function social_wall_block_view($delta = '') {
