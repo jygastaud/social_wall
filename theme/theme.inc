@@ -78,7 +78,7 @@ function template_preprocess_social_wall_feed(&$variables) {
 
   $interval = 60 * 5;
 
-  foreach(new \LimitIterator($variables['social_feed'], 0, 100) as $post) {
+  foreach(new \LimitIterator($variables['social_feed'], 0, variable_get('social_wall_card_count', 30)) as $post) {
     if(module_exists('social_wall_moderation') && social_wall_moderation_is_blacklisted($post)) {
       continue;
     }
