@@ -22,22 +22,24 @@ function template_preprocess_social_wall_card(&$variables) {
 
   $post = $variables['post'];
 
-  // prepare profile picture
-  $profile_picture_image = array(
-    '#theme' => 'imagecache_external',
-    '#path' => $post->getAuthor()->getProfilePicture()->getUrl(),
-    '#style_name' => 'sw_profile_picture'
-  );
+  if ($post->getAuthor()->getProfilePicture()) {
+    // prepare profile picture
+    $profile_picture_image = array(
+      '#theme' => 'imagecache_external',
+      '#path' => $post->getAuthor()->getProfilePicture()->getUrl(),
+      '#style_name' => 'sw_profile_picture'
+    );
 
-  $variables['profile_picture'] = array(
-    '#theme' => 'link',
-    '#text' => drupal_render($profile_picture_image),
-    '#path' => $post->getAuthor()->getLink(),
-    '#options' => array(
-      'attributes' => array(),
-      'html' => TRUE,
-    )
-  );
+    $variables['profile_picture'] = array(
+      '#theme' => 'link',
+      '#text' => drupal_render($profile_picture_image),
+      '#path' => $post->getAuthor()->getLink(),
+      '#options' => array(
+        'attributes' => array(),
+        'html' => TRUE,
+      )
+    );
+  }
 
   // prepare post medias
   $variables['medias'] = array();

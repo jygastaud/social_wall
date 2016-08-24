@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * @file social_wall.module
+ * TODO: Enter file description here.
+ */
+
+use Lns\SocialFeed\Provider\YoutubePlaylistProvider;
+use Lns\SocialFeed\Client\YoutubeApiClient;
+use Lns\SocialFeed\Factory\YoutubePlaylistItemFactory;
+
+/**
+ * Implements hook_social_wall_providers.
+ */
+function social_wall_youtube_social_wall_providers() {
+  $postFactory = new YoutubePlaylistItemFactory();
+
+  $settings = variable_get('social_wall_youtube_settings');
+
+  if(!$settings) {
+    return array();
+  }
+
+  $client = new YoutubeApiClient($settings['api_key']);
+
+  return new YoutubePlaylistProvider($client, $postFactory);
+}
+
+/**
+ * Implements hook_menu().
+ */
+function social_wall_youtube_menu() {
+  $items['admin/config/social_wall/youtube'] = array(
+    'title'            => 'Youtube',
+    'description'      => 'Youtube page configuration',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('social_wall_youtube_admin_settings'),
+    'access arguments' => array('administer social_wall configuration'),
+    'file'             => 'social_wall_youtube.admin.inc',
+    'file path'        => drupal_get_path('module', 'social_wall_youtube'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function social_wall_youtube_preprocess_social_wall_card(&$variables) {
+  if($variables['post'] instanceof \Lns\SocialFeed\Model\YoutubePlaylistItem) {
+    $variables['type'] = 'youtube_playlist_item';
+  }
+}
+
+function social_wall_youtube_social_wall_post_types() {
+  return array(
+    'youtube_playlist_item' => 'Lns\SocialFeed\Model\YoutubePlaylistItem'
+  );
+}

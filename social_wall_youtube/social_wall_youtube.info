@@ -1,0 +1,4 @@
+name = Social wall Youtube
+description = TODO: Description of module
+core = 7.x
+dependencies[] = social_wall
