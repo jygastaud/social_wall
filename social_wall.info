@@ -5,4 +5,5 @@ files[] = tests/social_wall.test
 dependencies[] = libraries
 dependencies[] = image
 dependencies[] = imagecache_external
+dependencies[] = composer_manager
 

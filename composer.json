@@ -1,0 +1,5 @@
+{
+     "require": {
+         "lns/social-feed": "~0.2"
+     }
+}
