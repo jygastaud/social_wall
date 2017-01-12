@@ -67,7 +67,7 @@ function social_wall_instagram_connect() {
     drupal_goto($provider->getAuthorizationUrl());
   }
 
-  $provider->setCode($_GET['code']);
+  $provider->setCode(check_plain($_GET['code']));
 
   $token = $provider->getToken();
 

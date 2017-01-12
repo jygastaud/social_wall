@@ -1,5 +1,11 @@
 {
-     "require": {
-         "lns/social-feed": "~0.2"
-     }
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/GroupeSNCF/SocialFeed"
+        }
+    ],
+    "require": {
+        "lns/social-feed": "dev-bugfix"
+    }
 }
